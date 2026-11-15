@@ -4,12 +4,12 @@ Angel Memories is a private memory gallery: members can share photos, videos and
 
 ## Current repository build
 
-- Royal blue and gold responsive community interface.
-- Home, Private Gallery, My Memories, Photos, Videos, Documents, Members and Admin sections.
+- Royal blue and gold responsive private-gallery interface.
+- Home, Private Gallery, Photos, Videos, Documents and Admin sections.
 - Google OAuth client flow is wired but requires a separate Supabase project and Google provider configuration.
 - Upload client supports images, videos, PDF, ZIP and common office documents.
 - Private Storage bucket with signed URLs for authorized viewing.
-- Database schema includes user profiles, unique Auth IDs, member/admin roles, public/private visibility and admin-only deletion RLS.
+- Database schema includes user profiles, unique Auth IDs, member/admin roles, private-only visibility and admin-only deletion RLS.
 - Admin member directory and delete controls are wired in the client.
 
 ## Important: not live yet
