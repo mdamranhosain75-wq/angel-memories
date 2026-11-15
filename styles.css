@@ -8,3 +8,9 @@
 .fineprint{font-size:9px!important;line-height:1.7;color:#879ab6!important}.profile-copy{min-width:0}.profile-copy b,.profile-copy small{max-width:155px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .memory{cursor:default}.memory-info{align-items:center}.memory-author{font-size:8px;color:#dfbd72;margin-top:5px}.memory-status{font-size:8px;color:#9eafc8}.kind{letter-spacing:.6px}
 @media(max-width:700px){.sidebar nav{display:flex;overflow:auto;gap:5px;margin-top:15px}.sidebar .label{display:none}.sidebar .nav{white-space:nowrap;padding:9px 10px;font-size:10px}.side-bottom{display:none}.login{padding:9px 10px}.actions{gap:6px}.search{padding:7px}.upload{padding:9px 10px}.crumb{font-size:9px}}
+
+.nav[hidden]{display:none!important}
+.private-note{padding:11px 12px;border:1px solid #dfbd7244;border-radius:8px;background:#071a36;color:#e7d5a6!important;font-size:10px!important}
+.delete{display:block;margin-top:6px;padding:5px 8px;border:1px solid #b85c5c66;border-radius:5px;color:#f2a4a4;font-size:9px}
+.delete:hover{background:#6b252544}
+.member-avatar{height:62px;width:62px;margin:18px auto 4px;border-radius:50%;display:grid;place-items:center;background:#1b3763;border:1px solid #dfbd7277;color:#f3d58e;font:600 22px "Playfair Display"}
