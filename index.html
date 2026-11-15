@@ -30,10 +30,10 @@
 </div>
 </aside>
 <main>
-<header><div class="crumb">Angel Memories <span>/</span> <b id="section">হোম</b></div><div class="actions"><label class="search">⌕ <input id="search" placeholder="স্মৃতি খুঁজুন..."></label><button class="upload" id="uploadBtn">＋ শেয়ার করুন</button><button class="login" id="loginBtn">Google Login</button></div></header>
+<header><div class="crumb">Angel Memories <span>/</span> <b id="section">হোম</b></div><div class="actions"><label class="search">⌕ <input id="search" placeholder="স্মৃতি খুঁজুন..."></label><button class="upload" id="uploadBtn">＋ সংরক্ষণ করুন</button><button class="login" id="loginBtn">Google Login</button></div></header>
 <section class="hero">
 <div><p class="eyebrow">✦ EVERY MEMORY • ONE HOME</p><h1>আপনার স্মৃতির ঠিকানা,<br><em>আপনার নিজস্ব ঘর।</em></h1><p class="intro">আপনার ছবি, ভিডিও, ডকুমেন্ট ও প্রিয় মুহূর্ত নিরাপদে রাখুন নিজের ব্যক্তিগত গ্যালারিতে।</p>
-<div class="hero-actions"><button class="gold" id="heroShare">＋ স্মৃতি শেয়ার করুন</button><button class="plain" data-go="public">আমার গ্যালারি দেখুন ↗</button></div></div>
+<div class="hero-actions"><button class="gold" id="heroShare">＋ স্মৃতি সংরক্ষণ করুন</button><button class="plain" data-go="public">আমার গ্যালারি দেখুন ↗</button></div></div>
 <div class="hero-art"><div class="ring"></div><div class="picture p1"></div><div class="picture p2"></div><div class="tag">✧ <span><b>Every Memory</b><small>One Home Forever</small></span></div></div>
 </section>
 <section class="stats">
@@ -51,8 +51,8 @@
 </main></div>
 <input id="files" type="file" accept="image/*,video/*,.pdf,.zip,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt" multiple hidden>
 <div id="toast" class="toast" role="status"></div>
-<div id="authModal" class="backdrop"><div class="dialog"><button class="close" id="authClose">×</button><p class="eyebrow">WELCOME TO ANGEL MEMORIES</p><h2>আপনার স্মৃতির ঘরে প্রবেশ করুন</h2><p>শেয়ার করতে ও নিজের স্মৃতি দেখতে Google দিয়ে লগইন করুন।</p><button class="gold full" id="googleSign">Google দিয়ে চালিয়ে যান</button></div></div>
-<div id="shareModal" class="backdrop"><div class="dialog"><button class="close" id="shareClose">×</button><p class="eyebrow">SHARE A MEMORY</p><h2>নতুন স্মৃতি শেয়ার করুন</h2><p>ছবি, ভিডিও অথবা ডকুমেন্ট নির্বাচন করুন।</p><input id="memoryTitle" maxlength="100" placeholder="স্মৃতির নাম (ঐচ্ছিক)"><textarea id="memoryDescription" rows="3" placeholder="স্মৃতি সম্পর্কে কিছু লিখুন (ঐচ্ছিক)"></textarea><p class="private-note">🔒 এই ফাইল শুধু আপনি এবং Admin দেখতে পারবেন।</p><button class="gold full" id="chooseFiles">ফাইল নির্বাচন করুন</button><p class="fineprint">ফাইল আপলোডের আগে লগইন ও ক্লাউড সংযোগ প্রয়োজন। সাধারণ সদস্য কোনো ফাইল ডিলিট করতে পারবে না।</p></div></div>
+<div id="authModal" class="backdrop"><div class="dialog"><button class="close" id="authClose">×</button><p class="eyebrow">WELCOME TO ANGEL MEMORIES</p><h2>আপনার স্মৃতির ঘরে প্রবেশ করুন</h2><p>স্মৃতি সংরক্ষণ করতে ও নিজের গ্যালারি দেখতে Google দিয়ে লগইন করুন।</p><button class="gold full" id="googleSign">Google দিয়ে চালিয়ে যান</button></div></div>
+<div id="shareModal" class="backdrop"><div class="dialog"><button class="close" id="shareClose">×</button><p class="eyebrow">SHARE A MEMORY</p><h2>নতুন স্মৃতি শেয়ার করুন</h2><p>ছবি, ভিডিও অথবা ডকুমেন্ট নির্বাচন করুন। এগুলো আপনার ব্যক্তিগত গ্যালারিতে থাকবে।</p><input id="memoryTitle" maxlength="100" placeholder="স্মৃতির নাম (ঐচ্ছিক)"><textarea id="memoryDescription" rows="3" placeholder="স্মৃতি সম্পর্কে কিছু লিখুন (ঐচ্ছিক)"></textarea><p class="private-note">🔒 এই ফাইল শুধু আপনি এবং Admin দেখতে পারবেন।</p><button class="gold full" id="chooseFiles">ফাইল নির্বাচন করুন</button><p class="fineprint">ফাইল আপলোডের আগে লগইন ও ক্লাউড সংযোগ প্রয়োজন। সাধারণ সদস্য কোনো ফাইল ডিলিট করতে পারবে না।</p></div></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase-config.js"></script><script src="app.js"></script>
 </body></html>
