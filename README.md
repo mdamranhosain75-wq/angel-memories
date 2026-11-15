@@ -12,20 +12,17 @@ Angel Memories is a private memory gallery: members can share photos, videos and
 - Database schema includes user profiles, unique Auth IDs, member/admin roles, private-only access and admin-only deletion RLS.
 - Admin member directory and delete controls are wired in the client.
 
-## Important: not live yet
+## Cloud project status
 
-This repository does not contain production credentials. The frontend will show that cloud setup is pending until the NEW Angel Memories Supabase project is created and configured. Do not paste a service-role key into the browser.
+A separate Supabase project named `angel-memories` has been created. The private-gallery schema, RLS policies, private Storage bucket, and browser-safe project URL/publishable key are configured. The older `little-angel` project is separate and unchanged.
 
-The existing Supabase project named `little-angel` belongs to the older Little Angel BD site and must not be reused for Angel Memories.
+Remaining launch steps:
 
-## Backend setup
+1. Configure Google OAuth credentials in Supabase Authentication (requires the owner's Google OAuth client ID and secret).
+2. The owner must sign in once with the intended administrator Google account; then promote that exact account using the trusted one-time SQL statement at the bottom of `supabase/schema.sql`.
+3. Deploy this repository to Vercel and add the deployed domain to Supabase Auth redirect allow list and Google OAuth authorized origins.
 
-1. Create a separate Supabase project named `angel-memories` in the organization selected by the owner.
-2. Run `supabase/schema.sql` in that new project's SQL Editor.
-3. In Supabase Authentication, enable Google provider and configure its OAuth client and redirect URLs.
-4. Promote the trusted administrator account using the commented one-time SQL at the bottom of `supabase/schema.sql`.
-5. Copy the new project's Project URL and publishable key into `supabase-config.js`. Never use a service-role or secret key in the browser.
-6. Deploy this repository to Vercel and add the deployed domain to Supabase Auth redirect allow list and Google OAuth authorized origins.
+Never put a service-role or secret key in browser files. The public publishable key is intended for browser use and access is restricted by database RLS.
 
 ## Security model
 
