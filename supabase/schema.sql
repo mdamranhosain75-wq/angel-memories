@@ -92,11 +92,11 @@ grant select, insert, update, delete on public.memories to authenticated;
 revoke all on public.memories from anon;
 
 drop policy if exists "Users read own role" on public.user_roles;
-create policy "Users read own role" on public.user_roles
-for select to authenticated using (user_id=(select auth.uid()));
 drop policy if exists "Admins read all roles" on public.user_roles;
-create policy "Admins read all roles" on public.user_roles
-for select to authenticated using ((select private.is_admin()));
+create policy "Users and admins read roles" on public.user_roles
+for select to authenticated using (
+  user_id=(select auth.uid()) or (select private.is_admin())
+);
 
 drop policy if exists "Profiles are visible to community" on public.user_profiles;
 create policy "Users and admins read profiles" on public.user_profiles
