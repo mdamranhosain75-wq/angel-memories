@@ -52,7 +52,7 @@ as $$
   );
 $$;
 revoke all on function private.is_admin() from public;
-grant execute on function private.is_admin() to authenticated;
+grant execute on function private.is_admin() to anon, authenticated;
 
 -- Automatically create a member profile and non-admin role at sign-up.
 create or replace function private.handle_new_user()
@@ -91,7 +91,7 @@ alter table public.memories enable row level security;
 grant select on public.user_roles to authenticated;
 grant select on public.user_profiles to anon, authenticated;
 grant insert, update on public.user_profiles to authenticated;
-grant select, insert, update on public.memories to authenticated;
+grant select, insert, update, delete on public.memories to authenticated;
 grant select on public.memories to anon;
 
 drop policy if exists "Users read own role" on public.user_roles;
