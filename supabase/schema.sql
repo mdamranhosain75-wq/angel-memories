@@ -1,6 +1,6 @@
 -- Angel Memories community cloud schema.
 -- Apply ONLY to the separate Angel Memories Supabase project.
--- All signed-in members may share public memories. Only admins may delete any memory/file.
+-- Each member sees only their own private memories. Admins can inspect and delete all.
 -- Storage stays private; files are delivered with short-lived signed URLs.
 
 create schema if not exists private;
@@ -35,7 +35,6 @@ create table if not exists public.memories (
 );
 
 create index if not exists memories_owner_created_idx on public.memories(user_id,created_at desc);
-create index if not exists memories_private_created_idx on public.memories(user_id,created_at desc) where visibility='private';
 create index if not exists profiles_created_idx on public.user_profiles(created_at desc);
 
 -- Internal role check. The function is not in an API-exposed schema.
@@ -52,7 +51,7 @@ as $$
   );
 $$;
 revoke all on function private.is_admin() from public;
-grant execute on function private.is_admin() to anon, authenticated;
+grant execute on function private.is_admin() to authenticated;
 
 -- Automatically create a member profile and non-admin role at sign-up.
 create or replace function private.handle_new_user()
@@ -119,7 +118,7 @@ for select to authenticated using (
 );
 
 drop policy if exists "Members save own private memories" on public.memories;
-create policy "Members share own memories" on public.memories
+create policy "Members insert own private memories" on public.memories
 for insert to authenticated
 with check (
   user_id=(select auth.uid())
@@ -138,7 +137,7 @@ create policy "Only admins delete memories" on public.memories
 for delete to authenticated
 using ((select private.is_admin()));
 
--- Private bucket. Public gallery assets are exposed only through authorized signed URLs.
+-- Private bucket. Only the owner and Admin may read stored assets.
 insert into storage.buckets(id,name,public,file_size_limit,allowed_mime_types)
 values (
   'angel-memories','angel-memories',false,52428800,
