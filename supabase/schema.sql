@@ -27,7 +27,7 @@ create table if not exists public.memories (
   media_type text not null check (media_type in ('photo','video','document')),
   mime_type text not null,
   size_bytes bigint not null check (size_bytes >= 0),
-  visibility text not null default 'public' check (visibility in ('private','public')),
+  visibility text not null default 'private' check (visibility = 'private'),
   review_status text not null default 'approved' check (review_status in ('approved')),
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
@@ -35,7 +35,7 @@ create table if not exists public.memories (
 );
 
 create index if not exists memories_owner_created_idx on public.memories(user_id,created_at desc);
-create index if not exists memories_public_created_idx on public.memories(created_at desc) where visibility='public';
+create index if not exists memories_private_created_idx on public.memories(user_id,created_at desc) where visibility='private';
 create index if not exists profiles_created_idx on public.user_profiles(created_at desc);
 
 -- Internal role check. The function is not in an API-exposed schema.
@@ -92,7 +92,7 @@ grant select on public.user_roles to authenticated;
 grant select on public.user_profiles to anon, authenticated;
 grant insert, update on public.user_profiles to authenticated;
 grant select, insert, update, delete on public.memories to authenticated;
-grant select on public.memories to anon;
+revoke all on public.memories from anon;
 
 drop policy if exists "Users read own role" on public.user_roles;
 create policy "Users read own role" on public.user_roles
@@ -111,20 +111,18 @@ using (user_id=(select auth.uid()) or (select private.is_admin()))
 with check (user_id=(select auth.uid()) or (select private.is_admin()));
 
 drop policy if exists "Public and owner memory reads" on public.memories;
-create policy "Public and owner memory reads" on public.memories
-for select using (
-  (visibility='public' and review_status='approved')
-  or (select auth.uid())=user_id
-  or (select private.is_admin())
+create policy "Only owner and admins read memories" on public.memories
+for select to authenticated using (
+  user_id=(select auth.uid()) or (select private.is_admin())
 );
 
-drop policy if exists "Members share own memories" on public.memories;
+drop policy if exists "Members save own private memories" on public.memories;
 create policy "Members share own memories" on public.memories
 for insert to authenticated
 with check (
   user_id=(select auth.uid())
   and split_part(object_path,'/',1)=(select auth.uid())::text
-  and review_status='approved'
+  and visibility='private' and review_status='approved'
 );
 
 drop policy if exists "Owners update own memory details" on public.memories;
@@ -166,16 +164,12 @@ with check (
 );
 
 drop policy if exists "Read owned or public memory assets" on storage.objects;
-create policy "Read owned or public memory assets" on storage.objects
-for select to anon, authenticated
+create policy "Only owner and admins read memory assets" on storage.objects
+for select to authenticated
 using (
   bucket_id='angel-memories'
   and (
     (storage.foldername(name))[1]=(select auth.uid())::text
-    or exists (
-      select 1 from public.memories m
-      where m.object_path=name and m.visibility='public' and m.review_status='approved'
-    )
     or (select private.is_admin())
   )
 );
