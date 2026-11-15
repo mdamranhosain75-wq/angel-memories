@@ -1,7 +1,7 @@
 // Angel Memories public browser configuration.
-// Paste the NEW Angel Memories Supabase project URL and publishable key here.
+// This file contains only the project URL and publishable key.
 // Never put a service_role or secret key in this file.
 window.ANGEL_SUPABASE_CONFIG = {
-  url: "PASTE_NEW_SUPABASE_PROJECT_URL_HERE",
-  publishableKey: "PASTE_SUPABASE_PUBLISHABLE_KEY_HERE"
+  url: "https://ebxruwuiqllfrnttyiji.supabase.co",
+  publishableKey: "sb_publishable_tH_PAiXxSAKpT8Dvsi9a6A_SCc_6z9K"
 };
