@@ -89,7 +89,7 @@ alter table public.memories enable row level security;
 
 -- Explicit grants are required for new tables under current Data API defaults.
 grant select on public.user_roles to authenticated;
-grant select on public.user_profiles to anon, authenticated;
+grant select on public.user_profiles to authenticated;
 grant insert, update on public.user_profiles to authenticated;
 grant select, insert, update, delete on public.memories to authenticated;
 revoke all on public.memories from anon;
@@ -102,8 +102,10 @@ create policy "Admins read all roles" on public.user_roles
 for select to authenticated using ((select private.is_admin()));
 
 drop policy if exists "Profiles are visible to community" on public.user_profiles;
-create policy "Profiles are visible to community" on public.user_profiles
-for select using (true);
+create policy "Users and admins read profiles" on public.user_profiles
+for select to authenticated using (
+  user_id=(select auth.uid()) or (select private.is_admin())
+);
 drop policy if exists "Users update own profile" on public.user_profiles;
 create policy "Users update own profile" on public.user_profiles
 for update to authenticated
