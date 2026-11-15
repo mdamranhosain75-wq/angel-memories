@@ -167,7 +167,7 @@ with check (
 
 drop policy if exists "Read owned or public memory assets" on storage.objects;
 create policy "Read owned or public memory assets" on storage.objects
-for select to authenticated
+for select to anon, authenticated
 using (
   bucket_id='angel-memories'
   and (
