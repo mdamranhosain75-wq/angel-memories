@@ -1,11 +1,11 @@
 # Angel Memories — Every Memory, One Home
 
-Angel Memories is a community memory gallery: members can share photos, videos and documents; everyone can browse public memories; each account has its own permanent Supabase Auth user ID. Only an administrator can delete memories or stored files.
+Angel Memories is a private memory gallery: members can share photos, videos and documents; each member can see only their own private gallery; each account has its own permanent Supabase Auth user ID. Only an administrator can delete memories or stored files.
 
 ## Current repository build
 
 - Royal blue and gold responsive community interface.
-- Home, Public Gallery, My Memories, Photos, Videos, Documents, Members and Admin sections.
+- Home, Private Gallery, My Memories, Photos, Videos, Documents, Members and Admin sections.
 - Google OAuth client flow is wired but requires a separate Supabase project and Google provider configuration.
 - Upload client supports images, videos, PDF, ZIP and common office documents.
 - Private Storage bucket with signed URLs for authorized viewing.
@@ -30,8 +30,8 @@ The existing Supabase project named `little-angel` belongs to the older Little A
 ## Security model
 
 - Every new Auth user receives a member role and a profile row.
-- Public memories are readable by everyone; private memories are readable by their owner and admins.
-- Members may upload and update their own memory metadata.
+- Every memory is private and readable only by its owner and admins.
+- Members may upload and update their own private memory metadata.
 - Only users with the database-backed admin role may delete memory rows or Storage objects.
 - Admin authorization is checked in database RLS, not trusted from browser state.
 - Storage bucket remains private and assets are delivered using short-lived signed URLs.
