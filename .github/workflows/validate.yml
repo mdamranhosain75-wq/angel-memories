@@ -1,0 +1,27 @@
+name: Validate Angel Memories
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  syntax:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Check application JavaScript syntax
+        run: node --check app.js
+      - name: Verify browser config does not contain server secrets
+        run: |
+          if grep -Eiq 'service_role|sb_secret_' supabase-config.js; then
+            echo "A server secret must never be committed to browser config."
+            exit 1
+          fi
+          grep -q 'ANGEL_SUPABASE_CONFIG' supabase-config.js
