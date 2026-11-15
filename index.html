@@ -16,16 +16,16 @@
 <p class="label">MEMORY HOME</p>
 <nav>
 <button class="nav active" data-view="home">⌂ <span>হোম</span></button>
-<button class="nav" data-view="public">◈ <span>Public Gallery</span></button>
+<button class="nav" data-view="public">◈ <span>আমার গ্যালারি</span></button>
 <button class="nav" data-view="mine">▧ <span>My Memories</span></button>
 <button class="nav" data-view="photos">▣ <span>Photos</span></button>
 <button class="nav" data-view="videos">▷ <span>Videos</span></button>
 <button class="nav" data-view="documents">▤ <span>Documents</span></button>
-<button class="nav" data-view="people">♙ <span>সদস্যবৃন্দ</span></button>
+<button class="nav admin-nav" data-view="people" hidden>♙ <span>সদস্যবৃন্দ</span></button>
 <button class="nav admin-nav" data-view="admin" hidden>✦ <span>Admin Panel</span></button>
 </nav>
 <div class="side-bottom">
-<div class="note"><b>Every Memory, One Home.</b><p>সবার স্মৃতি, সবার জন্য এক জায়গায়।</p><small id="connectionLabel">CLOUD SETUP PENDING</small></div>
+<div class="note"><b>Every Memory, One Home.</b><p>আপনার স্মৃতি, আপনার নিজস্ব গ্যালারিতে।</p><small id="connectionLabel">CLOUD SETUP PENDING</small></div>
 <div class="profile"><span class="avatar" id="avatar">G</span><span class="profile-copy"><b id="profileName">অতিথি</b><small id="profileId">লগইন করা হয়নি</small></span></div>
 </div>
 </aside>
@@ -33,26 +33,26 @@
 <header><div class="crumb">Angel Memories <span>/</span> <b id="section">হোম</b></div><div class="actions"><label class="search">⌕ <input id="search" placeholder="স্মৃতি খুঁজুন..."></label><button class="upload" id="uploadBtn">＋ শেয়ার করুন</button><button class="login" id="loginBtn">Google Login</button></div></header>
 <section class="hero">
 <div><p class="eyebrow">✦ EVERY MEMORY • ONE HOME</p><h1>স্মৃতির ঠিকানা,<br><em>সবার এক ঘর।</em></h1><p class="intro">ছবি, ভিডিও, ডকুমেন্ট ও জীবনের প্রিয় মুহূর্ত—সবাই মিলে জমা রাখুন Angel Memories-এ।</p>
-<div class="hero-actions"><button class="gold" id="heroShare">＋ স্মৃতি শেয়ার করুন</button><button class="plain" data-go="public">Public Gallery দেখুন ↗</button></div></div>
+<div class="hero-actions"><button class="gold" id="heroShare">＋ স্মৃতি শেয়ার করুন</button><button class="plain" data-go="public">আমার গ্যালারি দেখুন ↗</button></div></div>
 <div class="hero-art"><div class="ring"></div><div class="picture p1"></div><div class="picture p2"></div><div class="tag">✧ <span><b>Every Memory</b><small>One Home Forever</small></span></div></div>
 </section>
 <section class="stats">
-<article><small>মোট স্মৃতি</small><strong id="totalCount">—</strong><span>সবার শেয়ার করা</span></article>
+<article><small>মোট স্মৃতি</small><strong id="totalCount">—</strong><span>আপনার সংরক্ষিত</span></article>
 <article><small>সদস্য</small><strong id="memberCount">—</strong><span>Angel Memories community</span></article>
 <article><small>ছবি ও ভিডিও</small><strong id="mediaCount">—</strong><span>এক জায়গায় সংরক্ষিত</span></article>
 <article><small>ডকুমেন্ট</small><strong id="docCount">—</strong><span>গুরুত্বপূর্ণ ফাইল</span></article>
 </section>
 <section class="gallery">
-<div class="heading"><div><p class="eyebrow" id="eyebrow">COMMUNITY COLLECTION</p><h2 id="galleryTitle">সবার শেয়ার করা স্মৃতি</h2></div>
+<div class="heading"><div><p class="eyebrow" id="eyebrow">PRIVATE MEMORY COLLECTION</p><h2 id="galleryTitle">আপনার সংরক্ষিত স্মৃতি</h2></div>
 <div class="filters"><button class="filter active" data-filter="all">সব</button><button class="filter" data-filter="photo">ছবি</button><button class="filter" data-filter="video">ভিডিও</button><button class="filter" data-filter="document">ডকুমেন্ট</button></div></div>
-<div id="grid" class="grid"><div class="empty"><div>✧</div><h3>স্মৃতির ঘর তৈরি হচ্ছে</h3><p>ক্লাউড সংযোগ সম্পন্ন হলে সবার শেয়ার করা স্মৃতি এখানে দেখা যাবে।</p></div></div>
+<div id="grid" class="grid"><div class="empty"><div>✧</div><h3>স্মৃতির ঘর তৈরি হচ্ছে</h3><p>ক্লাউড সংযোগ সম্পন্ন হলে আপনার সংরক্ষিত স্মৃতি এখানে দেখা যাবে।</p></div></div>
 </section>
 <footer>ANGEL MEMORIES <span>EVERY MEMORY · ONE HOME</span><span>সবার স্মৃতি, সবার যত্নে</span></footer>
 </main></div>
 <input id="files" type="file" accept="image/*,video/*,.pdf,.zip,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt" multiple hidden>
 <div id="toast" class="toast" role="status"></div>
 <div id="authModal" class="backdrop"><div class="dialog"><button class="close" id="authClose">×</button><p class="eyebrow">WELCOME TO ANGEL MEMORIES</p><h2>আপনার স্মৃতির ঘরে প্রবেশ করুন</h2><p>শেয়ার করতে ও নিজের স্মৃতি দেখতে Google দিয়ে লগইন করুন।</p><button class="gold full" id="googleSign">Google দিয়ে চালিয়ে যান</button></div></div>
-<div id="shareModal" class="backdrop"><div class="dialog"><button class="close" id="shareClose">×</button><p class="eyebrow">SHARE A MEMORY</p><h2>নতুন স্মৃতি শেয়ার করুন</h2><p>ছবি, ভিডিও অথবা ডকুমেন্ট নির্বাচন করুন।</p><input id="memoryTitle" maxlength="100" placeholder="স্মৃতির নাম (ঐচ্ছিক)"><textarea id="memoryDescription" rows="3" placeholder="স্মৃতি সম্পর্কে কিছু লিখুন (ঐচ্ছিক)"></textarea><label class="share-check"><input type="checkbox" id="makePublic" checked> Public Gallery-তে সবার সাথে শেয়ার করুন</label><button class="gold full" id="chooseFiles">ফাইল নির্বাচন করুন</button><p class="fineprint">ফাইল আপলোডের আগে লগইন ও ক্লাউড সংযোগ প্রয়োজন। সাধারণ সদস্য কোনো ফাইল ডিলিট করতে পারবে না।</p></div></div>
+<div id="shareModal" class="backdrop"><div class="dialog"><button class="close" id="shareClose">×</button><p class="eyebrow">SHARE A MEMORY</p><h2>নতুন স্মৃতি শেয়ার করুন</h2><p>ছবি, ভিডিও অথবা ডকুমেন্ট নির্বাচন করুন।</p><input id="memoryTitle" maxlength="100" placeholder="স্মৃতির নাম (ঐচ্ছিক)"><textarea id="memoryDescription" rows="3" placeholder="স্মৃতি সম্পর্কে কিছু লিখুন (ঐচ্ছিক)"></textarea><label class="share-check"><input type="checkbox" id="makePublic" checked> আমার গ্যালারি-তে শুধু নিজের গ্যালারিতে রাখুন</label><button class="gold full" id="chooseFiles">ফাইল নির্বাচন করুন</button><p class="fineprint">ফাইল আপলোডের আগে লগইন ও ক্লাউড সংযোগ প্রয়োজন। সাধারণ সদস্য কোনো ফাইল ডিলিট করতে পারবে না।</p></div></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase-config.js"></script><script src="app.js"></script>
 </body></html>
