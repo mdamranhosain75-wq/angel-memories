@@ -87,11 +87,11 @@ create policy "Owners update pending memory details"
   );
 
 drop policy if exists "Owners or admins delete memories" on public.memories;
-create policy "Owners or admins delete memories"
+drop policy if exists "Only admins delete memories" on public.memories;
+create policy "Only admins delete memories"
   on public.memories for delete to authenticated
   using (
-    user_id = (select auth.uid())
-    or exists (
+    exists (
       select 1 from public.user_roles r
       where r.user_id = (select auth.uid()) and r.role = 'admin'
     )
@@ -162,16 +162,14 @@ create policy "Read owned or approved public assets"
   );
 
 drop policy if exists "Owners delete own assets" on storage.objects;
-create policy "Owners delete own assets"
+drop policy if exists "Only admins delete assets" on storage.objects;
+create policy "Only admins delete assets"
   on storage.objects for delete to authenticated
   using (
     bucket_id = 'angel-memories'
-    and (
-      owner_id = (select auth.uid())::text
-      or exists (
-        select 1 from public.user_roles r
-        where r.user_id = (select auth.uid()) and r.role = 'admin'
-      )
+    and exists (
+      select 1 from public.user_roles r
+      where r.user_id = (select auth.uid()) and r.role = 'admin'
     )
   );
 
