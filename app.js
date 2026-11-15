@@ -18,7 +18,23 @@ async function renderPeople(profiles){const term=$("#search").value.trim().toLow
 async function adminDelete(id,path){if(!isAdmin)return;if(!confirm("এই সদস্যের স্মৃতি স্থায়ীভাবে মুছে ফেলবেন?"))return;const {error:storageError}=await client.storage.from("angel-memories").remove([path]);if(storageError){say("ফাইল ডিলিট হয়নি: "+storageError.message);return}const {error}=await client.from("memories").delete().eq("id",id);if(error){say("রেকর্ড ডিলিট হয়নি: "+error.message);return}say("Admin হিসেবে স্মৃতি ডিলিট হয়েছে");await loadMemories();await loadStats()}
 function escapeHtml(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 function formatSize(n){return n<1048576?Math.max(1,Math.round(n/1024))+" KB":(n/1048576).toFixed(1)+" MB"}
-async function loadStats(){if(!client||!user)return;let q=client.from("memories").select("id,media_type",{count:"exact"});if(!isAdmin)q=q.eq("user_id",user.id);const {data,error,count}=await q.limit(1000);if(error)return;const rows=data||[];$("#totalCount").textContent=count??rows.length;$("#memberCount").textContent=isAdmin?"Admin": "১";$("#mediaCount").textContent=rows.filter(x=>x.media_type==="photo"||x.media_type==="video").length;$("#docCount").textContent=rows.filter(x=>x.media_type==="document").length}
+async function loadStats(){
+ if(!client||!user)return;
+ const base=()=>client.from("memories").select("id",{count:"exact",head:true});
+ const own=()=>{let q=base();if(!isAdmin)q=q.eq("user_id",user.id);return q};
+ const [total,photos,videos,docs,members]=await Promise.all([
+  own(),
+  (isAdmin?base():base().eq("user_id",user.id)).eq("media_type","photo"),
+  (isAdmin?base():base().eq("user_id",user.id)).eq("media_type","video"),
+  (isAdmin?base():base().eq("user_id",user.id)).eq("media_type","document"),
+  isAdmin?client.from("user_profiles").select("user_id",{count:"exact",head:true}):Promise.resolve({count:1})
+ ]);
+ if(total.error||photos.error||videos.error||docs.error){say("পরিসংখ্যান লোড করা যায়নি");return}
+ $("#totalCount").textContent=total.count??0;
+ $("#memberCount").textContent=members.count??(isAdmin?"—":"১");
+ $("#mediaCount").textContent=(photos.count??0)+(videos.count??0);
+ $("#docCount").textContent=docs.count??0;
+}
 $("#loginBtn").onclick=()=>user?logout():showModal("#authModal");$("#googleSign").onclick=login;$("#authClose").onclick=()=>hideModal("#authModal");$("#shareClose").onclick=()=>hideModal("#shareModal");$("#uploadBtn").onclick=$("#heroShare").onclick=openShare;$("#chooseFiles").onclick=()=>$("#files").click();$("#files").onchange=e=>{if(e.target.files.length)uploadFiles([...e.target.files]);e.target.value=""};
 $$(".nav[data-view]").forEach(b=>b.onclick=()=>setView(b.dataset.view));$$("[data-go]").forEach(b=>b.onclick=()=>setView(b.dataset.go));$$(".filter").forEach(b=>b.onclick=()=>{$$(".filter").forEach(x=>x.classList.remove("active"));b.classList.add("active");currentFilter=b.dataset.filter;loadMemories()});$("#search").oninput=()=>{if(currentView==="people")loadMemories();else renderMemories(allRows)};
 document.querySelectorAll(".backdrop").forEach(el=>el.addEventListener("click",e=>{if(e.target===el)el.classList.remove("show")}));
