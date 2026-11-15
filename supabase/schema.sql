@@ -37,7 +37,6 @@ create table if not exists public.memories (
 create index if not exists memories_owner_created_idx on public.memories(user_id,created_at desc);
 create index if not exists profiles_created_idx on public.user_profiles(created_at desc);
 
--- Internal role check. The function is not in an API-exposed schema.
 create or replace function private.is_admin()
 returns boolean
 language sql
@@ -45,15 +44,15 @@ stable
 security definer
 set search_path = ''
 as $$
-  select exists (
+  select (select auth.uid()) is not null and exists (
     select 1 from public.user_roles r
     where r.user_id = (select auth.uid()) and r.role = 'admin'
   );
 $$;
 revoke all on function private.is_admin() from public;
+grant usage on schema private to authenticated;
 grant execute on function private.is_admin() to authenticated;
 
--- Automatically create a member profile and non-admin role at sign-up.
 create or replace function private.handle_new_user()
 returns trigger
 language plpgsql
@@ -86,7 +85,6 @@ alter table public.user_roles enable row level security;
 alter table public.user_profiles enable row level security;
 alter table public.memories enable row level security;
 
--- Explicit grants are required for new tables under current Data API defaults.
 grant select on public.user_roles to authenticated;
 grant select on public.user_profiles to authenticated;
 grant insert, update on public.user_profiles to authenticated;
@@ -117,6 +115,7 @@ for select to authenticated using (
   user_id=(select auth.uid()) or (select private.is_admin())
 );
 
+drop policy if exists "Members save own memories" on public.memories;
 drop policy if exists "Members save own private memories" on public.memories;
 create policy "Members insert own private memories" on public.memories
 for insert to authenticated
@@ -137,7 +136,6 @@ create policy "Only admins delete memories" on public.memories
 for delete to authenticated
 using ((select private.is_admin()));
 
--- Private bucket. Only the owner and Admin may read stored assets.
 insert into storage.buckets(id,name,public,file_size_limit,allowed_mime_types)
 values (
   'angel-memories','angel-memories',false,52428800,
@@ -180,7 +178,7 @@ create policy "Only admins delete assets" on storage.objects
 for delete to authenticated
 using (bucket_id='angel-memories' and (select private.is_admin()));
 
--- After the first trusted admin signs up, promote that exact account once:
+-- Promote the verified first admin account after its first sign-in:
 -- update public.user_roles
 -- set role='admin'
 -- where user_id=(select id from auth.users where email='YOUR_ADMIN_EMAIL');
